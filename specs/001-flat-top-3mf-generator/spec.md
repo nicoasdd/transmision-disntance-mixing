@@ -19,7 +19,7 @@ A user uploads a raster image (photo, illustration, or graphic) and selects fila
 
 1. **Given** a user on the main page, **When** they upload a JPEG/PNG image, **Then** the image is displayed in the workspace and the system is ready for filament selection.
 2. **Given** an uploaded image and at least two filaments selected, **When** the user clicks "Generate 3MF", **Then** the system computes the layer geometry entirely in the browser and produces a downloadable `.3mf` file.
-3. **Given** a generated 3MF file, **When** opened in PrusaSlicer, OrcaSlicer, or BambuStudio, **Then** it imports without errors, shows correct material assignments, and the top surface is at a uniform Z height across the entire model.
+3. **Given** a generated 3MF file, **When** opened in BambuStudio, **Then** it imports without errors, shows correct material assignments mapped to AMS filament slots, and the top surface is at a uniform Z height across the entire model.
 4. **Given** a generated 3MF file, **When** the user inspects the model in a slicer, **Then** each XY position has a total stack height equal to the user-defined constant, with the bottom layer height varying to produce the intended color through TD.
 
 ---
@@ -96,7 +96,8 @@ A power user accesses advanced settings to fine-tune the generation process: XY 
 - **FR-010**: System MUST ship with a default filament database containing TD values for commonly available filament brands and colors.
 - **FR-011**: System MUST allow users to add, edit, and delete custom filament entries (name, brand, hex color, TD value).
 - **FR-012**: System MUST support configurable XY resolution (mm per pixel) for the generated mesh.
-- **FR-013**: Generated 3MF files MUST import without errors in PrusaSlicer, OrcaSlicer, and BambuStudio.
+- **FR-013**: Generated 3MF files MUST import without errors in BambuStudio (primary target) and SHOULD import correctly in PrusaSlicer and OrcaSlicer.
+- **FR-016**: Generated 3MF files MUST define materials in an order that maps cleanly to BambuStudio AMS filament slots, with accurate hex colors and filament type names to enable AMS auto-mapping.
 - **FR-014**: System MUST handle edge cases where no filament combination can match a target color by selecting the closest achievable match.
 - **FR-015**: System MUST allow the user to configure the number of color layers in the stack.
 
@@ -112,7 +113,7 @@ A power user accesses advanced settings to fine-tune the generation process: XY 
 ### Measurable Outcomes
 
 - **SC-001**: A user with no prior experience with the tool can upload an image, select filaments, and download a valid 3MF file within 5 minutes of first visit.
-- **SC-002**: Generated 3MF files import without errors in PrusaSlicer, OrcaSlicer, and BambuStudio for 100% of test cases.
+- **SC-002**: Generated 3MF files import without errors in BambuStudio for 100% of test cases, with correct AMS filament slot mapping.
 - **SC-003**: The color preview updates within 500ms of any parameter change for images up to 1024x1024 pixels on a mid-range device.
 - **SC-004**: 3MF generation for a 200x200mm model at 0.5mm XY resolution completes within 30 seconds on a mid-range device.
 - **SC-005**: The top surface of every generated model is verifiably flat (Z-height variance < 0.001mm across all vertices) when inspected in a slicer.
@@ -122,11 +123,12 @@ A power user accesses advanced settings to fine-tune the generation process: XY 
 ## Assumptions
 
 - Target users are hobbyist 3D printer owners who are familiar with concepts like filaments, slicing, and multi-color printing, but have no CAD or programming expertise.
-- Users have a multi-material-capable 3D printer (e.g., Bambu Lab AMS, Prusa MMU, Palette) or are printing with manual filament swaps.
+- Primary target hardware is Bambu Lab printers with AMS (A1, P1S, X1C). Other multi-material systems (Prusa MMU, Palette) are secondary targets.
 - The application will be built with Next.js to enable single-deployment hosting (static export or serverless), as explicitly requested by the user.
 - All heavy computation (image processing, TD color mapping, mesh generation, 3MF packaging) runs client-side in the browser; the server only serves static assets.
 - Initial filament TD data will be sourced from community databases (e.g., HueForge community TD sheets) and bundled as a default dataset.
 - Mobile support is not a priority for v1; the application targets desktop browsers with screens >= 1280px wide.
 - No user accounts or authentication are needed for v1; all data (filament library, settings) is stored in browser local storage.
 - The 3MF output targets FDM printers; resin/SLA workflows are out of scope.
+- BambuStudio's Color Mixing feature (V2.5.3+) blends filaments on vertical walls only — it does not apply to top/bottom surfaces. Integration with mixed filament slots as TD layer inputs is a potential future enhancement but out of scope for v1.
 - WebP and SVG image formats are out of scope for v1; only JPEG and PNG are supported.

@@ -1,20 +1,14 @@
 <!--
 ## Sync Impact Report
-- **Version change**: 0.0.0 → 1.0.0
-- **Modified principles**: N/A (initial creation)
-- **Added sections**:
-  - Core Principles (6 principles): Flat-Top Invariant, TD Color Fidelity,
-    3MF Output Compliance, Web-First Delivery, Real-Time Visual Feedback,
-    Simplicity & Accessibility
-  - Technical Constraints
-  - Development Workflow
-  - Governance
+- **Version change**: 1.0.0 → 1.1.0
+- **Modified principles**:
+  - III. 3MF Output Compliance → BambuStudio-primary target added
+- **Added sections**: None
 - **Removed sections**: None
 - **Templates requiring updates**:
   - `.specify/templates/plan-template.md` — ✅ No updates needed (generic)
   - `.specify/templates/spec-template.md` — ✅ No updates needed (generic)
   - `.specify/templates/tasks-template.md` — ✅ No updates needed (generic)
-  - `.specify/templates/commands/*.md` — N/A (no command files found)
 - **Follow-up TODOs**: None
 -->
 
@@ -45,17 +39,25 @@ when documented and their error bounds are stated.
 **Rationale**: Inaccurate TD modeling leads to prints that don't match the
 preview, wasting filament and time. Users trust the tool to predict outcomes.
 
-### III. 3MF Output Compliance
+### III. 3MF Output Compliance (BambuStudio-Primary)
 
 All generated files MUST conform to the 3MF Core Specification (version 1.x)
-and, where multi-material data is included, the 3MF Materials and Properties
-Extension. The output MUST be importable without errors in at least
-PrusaSlicer, OrcaSlicer, and BambuStudio. No proprietary or non-standard
-extensions may be relied upon for core functionality.
+and the 3MF Materials and Properties Extension. **BambuStudio is the primary
+target slicer**; the output MUST import without errors and map cleanly to AMS
+filament slots in BambuStudio. Compatibility with PrusaSlicer and OrcaSlicer
+is desirable but MUST NOT compromise BambuStudio workflows. Multi-body
+assembly via `<components>` with `basematerials` `pid`/`pindex` is the
+required approach for material assignment. Proprietary attributes (e.g.,
+`paint_color`) MUST NOT be used.
 
-**Rationale**: 3MF is an open, widely-supported format. Targeting it (instead
-of STL + manual painting) ensures interoperability and embeds color/material
-data directly in the file, reducing user error.
+**Rationale**: The primary user runs a Bambu Lab printer with AMS. Optimizing
+for BambuStudio's import behavior, filament slot mapping, and AMS workflow
+produces the best first-use experience. The 3MF Core + Materials Extension
+approach is natively supported by BambuStudio and remains compatible with
+other slicers. BambuStudio's Color Mixing feature (V2.5.3+) is complementary
+— it blends filaments on vertical walls, while our TD approach handles top
+surfaces. Future versions MAY integrate with mixed filament slots to expand
+the achievable color gamut.
 
 ### IV. Web-First Delivery
 
@@ -139,4 +141,4 @@ Amendments to this constitution follow semantic versioning:
 
 Every amendment MUST update the version, date, and Sync Impact Report.
 
-**Version**: 1.0.0 | **Ratified**: 2026-04-15 | **Last Amended**: 2026-04-15
+**Version**: 1.1.0 | **Ratified**: 2026-04-15 | **Last Amended**: 2026-04-15

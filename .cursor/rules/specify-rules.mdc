@@ -1,0 +1,38 @@
+---
+description: Project Development Guidelines
+globs: ["**/*"]
+alwaysApply: true
+---
+
+# transmision-disntance-mixing Development Guidelines
+
+Auto-generated from all feature plans. Last updated: 2026-04-15
+
+## Active Technologies
+- TypeScript 5.x (strict mode) + Next.js 15.x, React 19.x, Tailwind CSS 4.x, shadcn/ui, JSZip 3.10.x, fast-xml-parser 5.x, Dexie 4.x, file-saver 2.0.x (001-flat-top-3mf-generator)
+- IndexedDB (Dexie) for filament library; localStorage for user preferences (001-flat-top-3mf-generator)
+
+- (001-flat-top-3mf-generator)
+
+## Project Structure
+
+```text
+src/
+tests/
+```
+
+## Commands
+
+# Add commands for 
+
+## Code Style
+
+: Follow standard conventions
+
+## Recent Changes
+- 001-flat-top-3mf-generator: Added TypeScript 5.x (strict mode) + Next.js 15.x, React 19.x, Tailwind CSS 4.x, shadcn/ui, JSZip 3.10.x, fast-xml-parser 5.x, Dexie 4.x, file-saver 2.0.x
+
+- 001-flat-top-3mf-generator: Added
+
+<!-- MANUAL ADDITIONS START -->
+<!-- MANUAL ADDITIONS END -->
